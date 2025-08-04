@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
+import User from "./user.js"; 
 
 const ticketSchema = new mongoose.Schema({
-  userName : {type : mongoose.Schema.Types.ObjectId, ref: "User"},
   title: String,
   description: String,
   status: {
     type: String,
     default: "TODO",
-    enum: ["open", "in-progress", "closed"],
+    enum: [ {default : 'TODO'} ,"open", "in-progress", "closed"],
   },
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   assignedTo: {
@@ -20,6 +20,7 @@ const ticketSchema = new mongoose.Schema({
   helpfulNotes: String,
   relatedSkills: [String],
   createdAt: { type: Date, default: Date.now },
+  userName : {type : mongoose.Schema.Types.ObjectId, ref: "User"},
 });
 
 export default mongoose.model("Ticket", ticketSchema);

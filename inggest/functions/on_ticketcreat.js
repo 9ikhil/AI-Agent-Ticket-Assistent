@@ -3,6 +3,7 @@ import Ticket from "../../models/ticket.js";
 import User from "../../models/user.js";
 import { NonRetriableError } from "inngest";
 import analyzeTicket from "../../utils/ai.js";
+import { sendEmail } from "../../utils/mailer.js";
 
 export const onticketCreate = inngest.createFunction(
   { id: "on-ticket-create", retries: 2 },
@@ -66,7 +67,7 @@ export const onticketCreate = inngest.createFunction(
     await step.run("notify-moderator" , async () => {
         if(moderator){
             const finalTicket = await Ticket.findById(ticketId._id);
-            await sendMail(
+            await sendEmail(
             moderator.email,
             "Ticket Assigned",
             `A new ticket is assigned to you ${finalTicket.title}`
