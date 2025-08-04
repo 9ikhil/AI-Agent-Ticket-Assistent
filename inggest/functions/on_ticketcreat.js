@@ -22,10 +22,18 @@ export const onticketCreate = inngest.createFunction(
       });
 
       await step.run("update-ticket-status", async () => {
-        await Ticket.findByIdAndUpdate(ticket._id, { status: "TODO" });
+        await Ticket.findByIdAndUpdate(ticket._id, { status: "in-progress" });
       });
 
-      const airesponse = await analyzeTicket(ticket);
+      // const airesponse = await analyzeTicket(ticket);
+
+        const airesponse = await step.run("analyze-ticket-with-ai", async () => {
+        console.log("Starting AI analysis...");
+        const analysis = await analyzeTicket(ticket);
+        console.log("AI Analysis result:", analysis);
+        return analysis;
+      });
+
 
       const updateTicket = await step.run("update-ticket", async () => {
         let skills = [];
@@ -38,7 +46,8 @@ export const onticketCreate = inngest.createFunction(
             status: airesponse.status,
             relatedSkills: airesponse.relatedSkills,
           });
-          skills = airesponse.relatedSkills;
+          skills = airesponse.relatedSkills || [];
+          console.log("Ticket updated with AI analysis. Skills needed:", skills);
         }
         return skills;
       });
@@ -75,7 +84,14 @@ export const onticketCreate = inngest.createFunction(
         }
     })
 
-    return {success: true};
+     return { 
+        success: true, 
+        ticketId: ticket._id,
+        assignedTo: moderator?.userName,
+        priority: airesponse?.priority,
+        relatedSkills: airesponse?.relatedSkills
+        
+      };
 
     } catch (err) {
       console.error("Error processing ticket creation:", err.message);
