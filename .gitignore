@@ -46,4 +46,12 @@ tmp/
 temp/
 *.tmp
 
+<<<<<<< HEAD
 #
+=======
+#
+ai-ticket-assistant/node_modules
+
+# Ignore frontend dependencies
+frontend-ai-ticket-assistant/node_modules
+>>>>>>> 86577d9 (initial commit backend/frontend)
