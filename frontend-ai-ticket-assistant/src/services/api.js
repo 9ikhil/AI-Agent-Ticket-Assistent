@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "https://ai-agent-ticket-assistent.onrender.com";
+  process.env.REACT_APP_API_URL || "https://ai-agent-ticket-assistent.onrender.com/api";
 
 // Create axios instance
 const api = axios.create({
@@ -181,4 +181,5 @@ export const apiUtils = {
 
 
 export default api;
+
 
