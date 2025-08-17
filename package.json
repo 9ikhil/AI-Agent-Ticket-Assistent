@@ -6,7 +6,26 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon index.js",
-    "inngest-dev": "npx inngest-cli@latest dev"
+    "start": "node index.js",
+    "inngest-dev": "npx inngest-cli@latest dev",
+    
+    "frontend:install": "cd frontend-ai-ticket-assistant && npm install",
+    "frontend:dev": "cd frontend-ai-ticket-assistant && npm start",
+    "frontend:build": "cd frontend-ai-ticket-assistant && npm run build",
+    "frontend:test": "cd frontend-ai-ticket-assistant && npm test",
+    
+    "dev:backend": "concurrently --names \"🚀API,⚡INNGEST\" --prefix-colors \"blue,green\" \"npm run dev\" \"npm run inngest-dev\"",
+    "dev:frontend": "npm run frontend:dev",
+    
+    "dev:all": "concurrently --names \"🚀API,⚡INNGEST,⭐REACT\" --prefix-colors \"blue,green,magenta\" --kill-others-on-fail \"npm run dev\" \"npm run inngest-dev\" \"npm run frontend:dev\"",
+    
+    "dev:full": "concurrently --names \"🚀API,⚡INNGEST,⭐FRONTEND\" --prefix-colors \"blue.bold,green.bold,magenta.bold\" --kill-others-on-fail --restart-tries 2 \"npm run dev\" \"npm run inngest-dev\" \"cd frontend-ai-ticket-assistant && npm start\"",
+    
+    "start:all": "concurrently --names \"🚀API,⚡INNGEST,⭐REACT\" --prefix-colors \"cyan,yellow,magenta\" \"npm start\" \"npm run inngest-dev\" \"npm run frontend:dev\"",
+    
+    "install:all": "npm install && npm run frontend:install",
+    "clean:all": "rm -rf node_modules && rm -rf frontend-ai-ticket-assistant/node_modules",
+    "build:all": "npm run frontend:build"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +41,8 @@
     "mongoose": "^8.16.5",
     "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10"
-
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   }
 }

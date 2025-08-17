@@ -13,6 +13,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [isAdmin , setisAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  
+
   const login = async (email, password) => {
     try {
       const response = await authAPI.login(email, password);
@@ -54,6 +57,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, error: errorMessage };
     }
   };
+
 
   const signup = async (userData) => {
     try {

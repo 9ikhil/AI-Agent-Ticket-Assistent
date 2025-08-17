@@ -17,6 +17,8 @@ import './Home.css';
 const Home = () => {
 const { isAuthenticated } = useAuth();
 
+
+
   const features = [
     {
       icon: Bot,
